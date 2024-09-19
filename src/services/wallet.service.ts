@@ -57,7 +57,7 @@ class WalletManagementService {
       const withdrawalTransaction: UserTransactionModel = await UserTransactionModel.query(trx).insertAndFetch({
         userId: user.id,
         direction: 'debit',
-        type: 'withdrawal',
+        type: 'withdraw',
         status: 'pending',
         amount: +withdrawalData.amount,
       });
@@ -100,6 +100,7 @@ class WalletManagementService {
         .$query(trx)
         .patchAndFetch({ balance: raw('balance - :amount', { amount: +transferData.amount }) })
         .where('balance', '>=', +transferData.amount);
+      await transferTransaction.$query(trx).patchAndFetch({ status: 'success' });
 
       if (!senderWallet) {
         await trx.rollback();
@@ -138,7 +139,8 @@ class WalletManagementService {
       .withGraphFetched({
         transferSource: { destination: { user: true } },
         transferDestination: { source: { user: true } },
-      });
+      })
+      .orderBy('createdAt', 'desc');
     return userTransactions;
   }
 }

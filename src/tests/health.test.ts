@@ -3,7 +3,7 @@ import App from '../app';
 import HealthRoute from '../routes/health.route';
 
 afterAll(async () => {
-  await new Promise<void>(resolve => setTimeout(() => resolve(), 500));
+  await new Promise<void>((resolve) => setTimeout(() => resolve(), 500));
 });
 
 describe("Testing App's Health", () => {
@@ -11,14 +11,15 @@ describe("Testing App's Health", () => {
     it('response statusCode 200', () => {
       const route = new HealthRoute();
       const app = new App([route]);
-      return request(app.getApp()).get(`${route.path}`).expect(200);
+      return request(app.getExpressApp()).get(`${route.basePath}`).expect(200);
     });
   });
+
   describe('[GET] /health', () => {
     it('response statusCode 200', () => {
       const route = new HealthRoute();
       const app = new App([route]);
-      return request(app.getApp()).get(`${route.path}`).expect(200);
+      return request(app.getExpressApp()).get(`${route.basePath}`).expect(200);
     });
   });
 });

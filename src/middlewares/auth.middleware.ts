@@ -2,7 +2,7 @@ import { NextFunction, Response } from 'express';
 import { verify } from 'jsonwebtoken';
 import { SECRET_KEY } from '@config';
 import { CustomHttpException } from '@exceptions/HttpException';
-import { AuthTokenData, AuthenticatedRequest } from '@interfaces/auth.interface'; // Updated interface names
+import { AuthTokenData, AuthenticatedRequest } from '@interfaces/auth.interface'; 
 import { User } from '@interfaces/user.interface';
 import { UserModel } from '@models/users.model';
 
